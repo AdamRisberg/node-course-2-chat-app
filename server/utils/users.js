@@ -4,9 +4,12 @@ class Users {
   }
 
   addUser(id, name, room) {
-    const user = {id, name, room};
-    this.users.push(user);
-    return user;
+    if (this.checkForUsername(name, room)) {
+      const user = { id, name, room };
+      this.users.push(user);
+      return user;
+    }
+    return "";
   }
   removeUser(id) {
     let foundUser;
@@ -22,25 +25,18 @@ class Users {
   getUser(id) {
     return this.users.filter((user) => id === user.id)[0];
   }
+  checkForUsername(name, room) {
+    return this.users.every((user) => name.toLowerCase() !== user.name.toLowerCase() || room !== user.room);
+  }
   getUserList(room) {
     const users = this.users.filter((user) => user.room === room);
     const namesArray = users.map((user) => user.name);
     return namesArray;
   }
+  getRoomList() {
+    const rooms = this.users.map((user) => user.room);
+    return [...new Set(rooms)];
+  }
 }
 
 module.exports = {Users};
-
-// class Person {
-//   constructor(name, age) {
-//     this.name = name;
-//     this.age = age;
-//   }
-//   getUserDescription() {
-//     return `${this.name} is ${this.age} year(s) old.`;
-//   }
-// }
-
-// var me = new Person("Adam", 37);
-// var description = me.getUserDescription();
-// console.log(description);

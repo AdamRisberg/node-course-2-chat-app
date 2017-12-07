@@ -19,6 +19,10 @@ app.use(express.static(publicPath));
 io.on("connection", (socket) => {
   console.log("New user connected");
   
+  socket.on("getRooms", (callback) => {
+    callback(users.getRoomList());
+  });
+
   socket.on("join", (params, callback) => {
     if(!isRealString(params.name) || !isRealString(params.room)) {
       return callback("Name and room name are required.");
@@ -26,7 +30,9 @@ io.on("connection", (socket) => {
 
     socket.join(params.room);
     users.removeUser(socket.id);
-    users.addUser(socket.id, params.name, params.room);
+    if(!users.addUser(socket.id, params.name, params.room)) {
+      return callback("Name is already taken.");
+    }
 
     io.to(params.room).emit("updateUserList", users.getUserList(params.room));
     socket.emit("newMessage", generateMessage("Admin", "Welcome to the chat app"));

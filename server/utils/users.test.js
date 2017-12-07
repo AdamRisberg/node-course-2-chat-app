@@ -71,4 +71,11 @@ describe("Users", () => {
 
     expect(userList).toEqual(["Jen"]);
   });
+
+  it("should return an array of unique room names", () => {
+    const roomList = users.getRoomList();
+
+    expect(roomList.length).toBe(2);
+    expect(roomList).toEqual(["Node Course", "React Course"]);
+  });
 });
