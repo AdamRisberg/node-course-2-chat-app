@@ -2,13 +2,13 @@ var socket = io();
 var roomSelect = jQuery("#room-select");
 
 socket.on("connect", function() {
-  socket.emit("getRooms", function(rooms) {
+  socket.emit("getRooms", function(users) {
     var roomSelectDiv = jQuery("#room-select-div");
 
-    if(rooms.length > 0) {
-      rooms.forEach(function (room) {
+    if (users.length > 0) {
+      users.forEach(function (user) {
         var option = jQuery("<option></option>");
-        option.text(room);
+        option.text(user.room);
         roomSelect.append(option);
       });
       roomSelectDiv.show();

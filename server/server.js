@@ -20,7 +20,7 @@ io.on("connection", (socket) => {
   console.log("New user connected");
   
   socket.on("getRooms", (callback) => {
-    callback(users.getRoomList());
+    callback(users.getUserListWithUniqueRooms());
   });
 
   socket.on("join", (params, callback) => {

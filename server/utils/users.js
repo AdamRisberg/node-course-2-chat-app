@@ -33,9 +33,13 @@ class Users {
     const namesArray = users.map((user) => user.name);
     return namesArray;
   }
-  getRoomList() {
-    const rooms = this.users.map((user) => user.room);
-    return [...new Set(rooms)];
+  getUserListWithUniqueRooms() {
+    return this.users.sort((a, b) => a.room > b.room).filter((user, idx, arr) => {
+      if(arr.indexOf(a => a.room === user.room)) {
+        return true;
+      }
+      return false;
+    });
   }
 }
 
